@@ -1,0 +1,4 @@
+Docker_for_dev/
+node_modules/
+.env
+utils/config.js
