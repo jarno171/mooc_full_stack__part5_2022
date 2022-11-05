@@ -21,6 +21,7 @@ const App = () => {
 
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
+      blogService.setToken(user.token)
       setUser(user)
     }
   }, [])
@@ -37,9 +38,11 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       )
 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
+
     } catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -51,6 +54,21 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+  }
+
+  const handleAddNewBlog = async (event) => {
+    event.preventDefault()
+
+    const newBlog = {
+      title: event.target.title.value,
+      author: event.target.author.value,
+      url: event.target.url.value
+    }
+
+    const newReturnedBlog = await blogService.create(newBlog, user)
+
+    setBlogs(blogs.concat(newReturnedBlog))
+    
   }
 
   const loginForm = () => {
@@ -99,11 +117,52 @@ const App = () => {
     )
   }
 
+  const addNewBlog = () => {
+    return (
+      <div>
+        <form onSubmit={handleAddNewBlog}>
+          <div>
+            title: 
+            <input
+              type="text"
+              name="title"
+            />
+          </div>
+          <div>
+            author:
+            <input
+              type="text"
+              name="author"
+            />
+          </div>
+          <div>
+            url:
+            <input
+              type="text"
+              name="url"
+            />
+          </div>
+          <button type="submit">add a new blog</button>
+        </form>
+      </div>
+    )
+  }
+
+  const loggedUserView = () => {
+    return (
+      <div>
+        {blogList()}
+        {addNewBlog()}
+      </div>
+    )
+  }
+
   return (
     <div>
-      { user === null ?
+      { 
+        user === null ?
         loginForm() :
-        blogList()
+        loggedUserView()
       }
     </div>
   )
