@@ -1,0 +1,48 @@
+GET http://localhost:3003/api/blogs
+
+###
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Testiblogi",
+  "author": "Leevi",
+  "url": "www.leevi.com",
+  "likes": 1000000000000
+}
+
+###
+DELETE http://localhost:3003/api/blogs/635ff8576c597973c0040eac
+
+###
+POST http://localhost:3003/api/users HTTP/1.1
+content-type: application/json
+
+{
+  "username": "testinen",
+  "name": "testinen testi",
+  "password": "123321"
+}
+
+
+###
+POST http://localhost:3003/api/login HTTP/1.1
+content-type: application/json
+
+{
+  "username": "testinen",
+  "password": "123321"
+}
+
+###
+POST http://localhost:3003/api/users HTTP/1.1
+content-type: application/json
+
+{
+  "username": "teds",
+  "name": "te",
+  "password": "123321"
+}
