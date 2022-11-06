@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
+import ErrorBar from './components/Errorbar'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [updateMessage, setUpdateMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -26,6 +29,15 @@ const App = () => {
     }
   }, [])
 
+  const showMessage = (setStateFunction, message) => {
+    const timeout = 5000
+
+    setStateFunction(message)
+      setTimeout(() => {
+        setStateFunction('')
+      }, timeout)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
 
@@ -44,10 +56,7 @@ const App = () => {
       setPassword('')
 
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      showMessage(setErrorMessage, ('Wrong credentials'))
     }
   }
 
@@ -68,12 +77,16 @@ const App = () => {
     const newReturnedBlog = await blogService.create(newBlog, user)
 
     setBlogs(blogs.concat(newReturnedBlog))
+
+    showMessage(setUpdateMessage, ('Added new blog'))
     
   }
 
   const loginForm = () => {
     return (
       <div>
+
+      < ErrorBar message={errorMessage} />
 
       <form onSubmit={handleLogin}>
         <div>
@@ -120,6 +133,8 @@ const App = () => {
   const addNewBlog = () => {
     return (
       <div>
+        < Notification message={updateMessage} />
+
         <form onSubmit={handleAddNewBlog}>
           <div>
             title: 
