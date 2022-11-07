@@ -67,13 +67,12 @@ const App = () => {
     setUser(null)
   }
 
-  const handleAddNewBlog = async (event) => {
-    event.preventDefault()
-
+  const handleAddNewBlog = async (title, author, url) => {
+    
     const newBlog = {
-      title: event.target.title.value,
-      author: event.target.author.value,
-      url: event.target.url.value
+      title: title,
+      author: author,
+      url: url
     }
 
     const newReturnedBlog = await blogService.create(newBlog, user)
@@ -83,7 +82,6 @@ const App = () => {
     showMessage(setUpdateMessage, ('Added new blog'))
 
     /* Reset form manually, in previous exercises all the inputs in the form were controlled by state */
-    event.target.reset()
     setBlogFormVisible(false)
     
   }
