@@ -55,6 +55,29 @@ blogsRouter.post('/', async (request, response, next) => {
 
 })
 
+blogsRouter.put('/:id', async (request, response, next) => {
+
+  if (!request.user) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const user = await User.findById(request.user)
+
+  const blogUpdates = {
+    title: request.body.title,
+    author: request.body.author,
+    url: request.body.url,
+    likes: request.body.likes,
+  }
+
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blogUpdates, {new: true})
+    response.status(201).json(updatedBlog)
+  } catch(exception) {
+    next(exception)
+  }
+})
+
 blogsRouter.delete('/:id', async (request, response, next) => {
 
   if (!request.user) {
