@@ -26,7 +26,7 @@ const BlogForm = ({
   return (
     <form onSubmit={addBlog}>
       <div>
-        title: 
+        title:
         <input
           type="text"
           value={newTitle}

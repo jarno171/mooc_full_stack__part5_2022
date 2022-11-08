@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( sortBlogsInPlace(blogs) )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -35,10 +35,10 @@ const App = () => {
   const sortBlogsInPlace = (blogsToSort) => {
     blogsToSort.sort((a, b) => {
       return a.likes > b.likes
-             ? -1
-             : a.likes < b.likes
-             ? 1
-             : 0
+        ? -1
+        : a.likes < b.likes
+          ? 1
+          : 0
     })
 
     return blogsToSort
@@ -55,9 +55,9 @@ const App = () => {
     const timeout = 5000
 
     setStateFunction(message)
-      setTimeout(() => {
-        setStateFunction('')
-      }, timeout)
+    setTimeout(() => {
+      setStateFunction('')
+    }, timeout)
   }
 
   const handleLogin = async (event) => {
@@ -88,7 +88,7 @@ const App = () => {
   }
 
   const handleAddNewBlog = async (title, author, url) => {
-    
+
     const newBlog = {
       title: title,
       author: author,
@@ -103,7 +103,7 @@ const App = () => {
 
     /* Reset form manually, in previous exercises all the inputs in the form were controlled by state */
     setBlogFormVisible(false)
-    
+
   }
 
   const blogList = () => {
@@ -112,19 +112,19 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         <p>{user.name} logged in
-        <button onClick={handleLogout} >logout</button>
+          <button onClick={handleLogout} >logout</button>
         </p>
 
         {blogs
           .map(blog =>
             <Blog key={blog.id} blog={blog} setBlogsSorted={setBlogsSorted} blogsInApp={blogs} setBlogsInApp={setBlogs} />
-        )}
+          )}
       </div>
     )
   }
 
   const loginForm = () => {
-    
+
     return (
       <LoginForm
         username={username}
@@ -171,10 +171,10 @@ const App = () => {
 
   return (
     <div>
-      { 
+      {
         user === null ?
-        loginForm() :
-        loggedUserView()
+          loginForm() :
+          loggedUserView()
       }
     </div>
   )

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const Blog = ({blog, setBlogsSorted, blogsInApp, setBlogsInApp}) => {
+const Blog = ({ blog, setBlogsSorted, blogsInApp, setBlogsInApp }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -22,7 +22,7 @@ const Blog = ({blog, setBlogsSorted, blogsInApp, setBlogsInApp}) => {
   }
 
   const addLike = async () => {
-    const updatedBlog = {...blog, likes: likes + 1 }
+    const updatedBlog = { ...blog, likes: likes + 1 }
 
     await blogService.update(updatedBlog)
 
@@ -49,15 +49,15 @@ const Blog = ({blog, setBlogsSorted, blogsInApp, setBlogsInApp}) => {
           <button style={hideWhenVisible} onClick={toggleVisibility}>view</button>
           <button style={showWhenVisible} onClick={toggleVisibility}>close</button>
         </div>
-        
+
         <div style={showWhenVisible}>
           <p>{blog.url}</p>
           <p>likes {likes} <button onClick={addLike}>like</button></p>
           <p>{blog.author}</p>
           <button style={showWhenVisible} onClick={deleteBlog}>delete</button>
         </div>
-      </div> 
-    </> 
+      </div>
+    </>
   )
 }
 
