@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({blog}) => {
+const Blog = ({blog, setBlogsSorted, blogsInApp}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -24,7 +24,12 @@ const Blog = ({blog}) => {
     const updatedBlog = {...blog, likes: likes + 1 }
 
     await blogService.update(updatedBlog)
+
+    const findBlog = blogsInApp.find(blog => blog.id === updatedBlog.id)
+    findBlog.likes += 1
+
     setLikes(likes + 1)
+    setBlogsSorted(false)
   }
 
   return (

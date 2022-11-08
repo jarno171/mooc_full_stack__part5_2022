@@ -14,10 +14,11 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogFormVisible, setBlogFormVisible] = useState(false)
+  const [blogsSorted, setBlogsSorted] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( sortBlogsInPlace(blogs) )
     )  
   }, [])
 
@@ -30,6 +31,25 @@ const App = () => {
       setUser(user)
     }
   }, [])
+
+  const sortBlogsInPlace = (blogsToSort) => {
+    blogsToSort.sort((a, b) => {
+      return a.likes > b.likes
+             ? -1
+             : a.likes < b.likes
+             ? 1
+             : 0
+    })
+
+    return blogsToSort
+  }
+
+  if (!blogsSorted) {
+    const sortedBlogs = sortBlogsInPlace([...blogs])
+
+    setBlogs(sortedBlogs)
+    setBlogsSorted(true)
+  }
 
   const showMessage = (setStateFunction, message) => {
     const timeout = 5000
@@ -96,15 +116,8 @@ const App = () => {
         </p>
 
         {blogs
-          .sort((a, b) => {
-            return a.likes > b.likes
-                   ? -1
-                   : a.likes < b.likes
-                   ? 1
-                   : 0
-          })
           .map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} setBlogsSorted={setBlogsSorted} blogsInApp={blogs} />
         )}
       </div>
     )
