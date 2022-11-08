@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({blog, setBlogsSorted, blogsInApp}) => {
+const Blog = ({blog, setBlogsSorted, blogsInApp, setBlogsInApp}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -32,19 +32,28 @@ const Blog = ({blog, setBlogsSorted, blogsInApp}) => {
     setBlogsSorted(false)
   }
 
+  const deleteBlog = async () => {
+    if (window.confirm(`Remove ${blog.title}?`)) {
+      await blogService.remove(blog)
+
+      setBlogsInApp(blogsInApp.filter(appBlog => appBlog.id !== blog.id))
+    }
+  }
+
   return (
     <>
       <div style={blogStyle}>
         <div>
           <p>{blog.title}</p>
           <button style={hideWhenVisible} onClick={toggleVisibility}>view</button>
+          <button style={showWhenVisible} onClick={toggleVisibility}>close</button>
         </div>
         
         <div style={showWhenVisible}>
           <p>{blog.url}</p>
           <p>likes {likes} <button onClick={addLike}>like</button></p>
           <p>{blog.author}</p>
-          <button onClick={toggleVisibility}>close</button>
+          <button style={showWhenVisible} onClick={deleteBlog}>delete</button>
         </div>
       </div> 
     </> 
