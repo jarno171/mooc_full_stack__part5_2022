@@ -50,7 +50,7 @@ const Blog = ({ blog, setBlogsSorted, blogsInApp, setBlogsInApp }) => {
           <button style={showWhenVisible} onClick={toggleVisibility}>close</button>
         </div>
 
-        <div style={showWhenVisible}>
+        <div style={showWhenVisible} >
           <p>{blog.url}</p>
           <p>likes {likes} <button onClick={addLike}>like</button></p>
           <p>{blog.author}</p>
@@ -63,9 +63,6 @@ const Blog = ({ blog, setBlogsSorted, blogsInApp, setBlogsInApp }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  setBlogsSorted: PropTypes.func.isRequired,
-  blogsInApp: PropTypes.array.isRequired,
-  setBlogsInApp: PropTypes.func.isRequired,
 }
 
 export default Blog
