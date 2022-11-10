@@ -9,10 +9,14 @@ const BlogForm = ({
   const [newUrl, setNewUrl] = useState('')
 
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
 
-    handleAddNewBlog(newTitle, newAuthor, newUrl)
+    await handleAddNewBlog(newTitle, newAuthor, newUrl)
+
+    setNewTitle('')
+    setNewAuthor('')
+    setNewUrl('')
   }
 
   const cancelAdd = () => {

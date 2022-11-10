@@ -1,8 +1,7 @@
-import { useState } from 'react'
-import blogService from '../services/blogs'
+import { useState, forwardRef, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, setBlogsSorted, blogsInApp, setBlogsInApp }) => {
+const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -21,25 +20,13 @@ const Blog = ({ blog, setBlogsSorted, blogsInApp, setBlogsInApp }) => {
     setVisible(!visible)
   }
 
-  const addLike = async () => {
-    const updatedBlog = { ...blog, likes: likes + 1 }
-
-    await blogService.update(updatedBlog)
-
-    const findBlog = blogsInApp.find(blog => blog.id === updatedBlog.id)
-    findBlog.likes += 1
-
-    setLikes(likes + 1)
-    setBlogsSorted(false)
-  }
-
-  const deleteBlog = async () => {
-    if (window.confirm(`Remove ${blog.title}?`)) {
-      await blogService.remove(blog)
-
-      setBlogsInApp(blogsInApp.filter(appBlog => appBlog.id !== blog.id))
+  useImperativeHandle(refs, () => {
+    return  {
+      blog: blog,
+      likes: likes,
+      setLikes: setLikes,
     }
-  }
+  })
 
   return (
     <>
@@ -52,17 +39,20 @@ const Blog = ({ blog, setBlogsSorted, blogsInApp, setBlogsInApp }) => {
 
         <div style={showWhenVisible} >
           <p>{blog.url}</p>
-          <p>likes {likes} <button onClick={addLike}>like</button></p>
+          <p>likes {likes} <button onClick={handleAddLike}>like</button></p>
           <p>{blog.author}</p>
-          <button style={showWhenVisible} onClick={deleteBlog}>delete</button>
+          <button style={showWhenVisible} onClick={handleDeleteBlog}>delete</button>
         </div>
       </div>
     </>
   )
-}
+})
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
 }
+
+// set display name
+Blog.displayName = 'Blog'
 
 export default Blog

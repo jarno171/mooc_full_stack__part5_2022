@@ -16,8 +16,6 @@ describe('<Blog />', () => {
 
     render(<Blog blog={blog} />)
 
-    screen.debug()
-
     screen.getByText('testiblogi')
     screen.getByText('testaaja')
 
@@ -47,5 +45,28 @@ describe('<Blog />', () => {
 
     const likesVisible = screen.getByText('likes 30')
     expect(likesVisible).toBeVisible()
+  })
+
+  test('clicking the like button means that the event handler receives exactly two calls', async () => {
+    const blog = {
+      title: 'testiblogi',
+      author: 'testaaja',
+      url: 'www.testi.com',
+      likes: 30
+    }
+
+    const mockHandler = jest.fn()
+
+    render(<Blog blog={blog} handleAddLike={mockHandler} />)
+
+    const user = userEvent.setup()
+    const buttonView = screen.getByText('view')
+    await user.click(buttonView)
+
+    const buttonLike = screen.getByText('like')
+    await user.click(buttonLike)
+    await user.click(buttonLike)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
   })
 })

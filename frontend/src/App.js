@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -15,6 +15,8 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [blogFormVisible, setBlogFormVisible] = useState(false)
   const [blogsSorted, setBlogsSorted] = useState(false)
+
+  const blogRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -103,7 +105,26 @@ const App = () => {
 
     /* Reset form manually, in previous exercises all the inputs in the form were controlled by state */
     setBlogFormVisible(false)
+  }
 
+  const handleAddLike = async () => {
+    const updatedBlog = { ...blogRef.current.blog, likes: blogRef.current.likes + 1 }
+
+    await blogService.update(updatedBlog)
+
+    const findBlog = blogs.find(blog => blog.id === updatedBlog.id)
+    findBlog.likes += 1
+
+    blogRef.current.setLikes(blogRef.current.likes + 1)
+    setBlogsSorted(false)
+  }
+
+  const handleDeleteBlog = async (blog) => {
+    if (window.confirm(`Remove ${blog.title}?`)) {
+      await blogService.remove(blog)
+
+      setBlogs(blogs.filter(blog => blog.id !== blog.id))
+    }
   }
 
   const blogList = () => {
@@ -117,7 +138,7 @@ const App = () => {
 
         {blogs
           .map(blog =>
-            <Blog key={blog.id} blog={blog} setBlogsSorted={setBlogsSorted} blogsInApp={blogs} setBlogsInApp={setBlogs} />
+            <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} handleDeleteBlog={handleDeleteBlog} ref={blogRef} />
           )}
       </div>
     )
