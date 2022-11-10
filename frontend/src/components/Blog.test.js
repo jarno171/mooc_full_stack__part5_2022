@@ -9,7 +9,7 @@ describe('<Blog />', () => {
     const blog = {
       title: 'testiblogi',
       author: 'testaaja',
-      ulr: 'www.testi.com',
+      url: 'www.testi.com',
       likes: 30
     }
 
@@ -19,9 +19,9 @@ describe('<Blog />', () => {
     screen.getByText('testaaja')
 
     const urlVisible = screen.queryByText('www.testi.com')
-    expect(urlVisible).toBeNull()
+    expect(urlVisible).not.toBeVisible()
 
-    const likesVisible = screen.queryByText('30')
-    expect(likesVisible).toBeNull()
+    const likesVisible = screen.queryByText('likes 30')
+    expect(likesVisible).not.toBeVisible()
   })
 })
