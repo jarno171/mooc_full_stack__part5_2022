@@ -39,9 +39,9 @@ const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
 
         <div style={showWhenVisible} >
           <p>{blog.url}</p>
-          <p>likes {likes} <button onClick={handleAddLike}>like</button></p>
+          <p>likes {likes} <button id="like-button" onClick={handleAddLike}>like</button></p>
           <p>{blog.author}</p>
-          <button style={showWhenVisible} onClick={handleDeleteBlog}>delete</button>
+          <button id="delete-button" style={showWhenVisible} onClick={handleDeleteBlog}>delete</button>
         </div>
       </div>
     </>

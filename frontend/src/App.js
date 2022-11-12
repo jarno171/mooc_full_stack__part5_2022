@@ -119,11 +119,11 @@ const App = () => {
     setBlogsSorted(false)
   }
 
-  const handleDeleteBlog = async (blog) => {
-    if (window.confirm(`Remove ${blog.title}?`)) {
-      await blogService.remove(blog)
+  const handleDeleteBlog = async () => {
+    if (window.confirm(`Remove ${blogRef.current.blog.title}?`)) {
+      await blogService.remove(blogRef.current.blog)
 
-      setBlogs(blogs.filter(blog => blog.id !== blog.id))
+      setBlogs(blogs.filter(blog => blog.id !== blogRef.current.blog.id))
     }
   }
 

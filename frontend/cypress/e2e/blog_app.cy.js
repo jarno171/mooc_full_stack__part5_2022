@@ -76,6 +76,15 @@ describe('Blog app', function() {
         cy.contains('likes 0').should('not.exist')
         cy.contains('likes 1')
       })
+
+      it('user can delete a blog', () => {
+        cy.contains('view').click()
+        cy.contains('delete').click()
+
+        cy.contains('testiblogi').should('not.exist')
+        cy.contains('toinentestaaja').should('not.exist')
+        cy.contains('www.lol.com').should('not.exist')
+      })
     })
 
   })
