@@ -30,7 +30,7 @@ const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
 
   return (
     <>
-      <div style={blogStyle}>
+      <div className="blog" style={blogStyle}>
         <div>
           <p>{blog.title}</p>
           <button style={hideWhenVisible} onClick={toggleVisibility}>view</button>

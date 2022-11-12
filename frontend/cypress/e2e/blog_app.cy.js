@@ -85,6 +85,30 @@ describe('Blog app', function() {
         cy.contains('toinentestaaja').should('not.exist')
         cy.contains('www.lol.com').should('not.exist')
       })
+
+      it('multiple blogs are sorted', () => {
+        cy.contains('add a new blog').click()
+        cy.get('#title').type('aaa222')
+        cy.get('#author').type('toinentestaaja222')
+        cy.get('#url').type('www.lol.com222')
+
+        cy.get('#add-button').click()
+
+        cy.wait(500)
+
+        // the second blog
+        cy.get('button:contains(view)').eq(1).click()
+
+        cy.wait(500)
+
+        // last blog should be first by now
+        cy.get('button:contains(like)').eq(1).click()
+
+        cy.wait(1000)
+
+        cy.get('.blog').eq(0).should('contain', 'aaa222')
+        cy.get('.blog').eq(1).should('contain', 'testiblogi')
+      })
     })
 
   })
