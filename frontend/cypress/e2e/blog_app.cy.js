@@ -35,4 +35,27 @@ describe('Blog app', function() {
       cy.contains('blogs')
     })
   })
+
+  describe('when logged in', () => {
+    beforeEach(function() {
+      cy.get('input:first').type('testinen')
+      cy.get('input:last').type('123321')
+      cy.contains('login').click()
+    })
+
+    it('a blog can be created', () => {
+      cy.contains('add a new blog').click()
+      cy.get('#title').type('testiblogi')
+      cy.get('#author').type('toinentestaaja')
+      cy.get('#url').type('www.lol.com')
+
+      cy.get('#add-button').click()
+      cy.contains('Added new blog')
+      cy.contains('testiblogi')
+
+      // hmm these can be seen because they are just hidden
+      cy.contains('toinentestaaja').should('not.be.visible')
+      cy.contains('www.lol.com').should('not.be.visible')
+    })
+  })
 })
