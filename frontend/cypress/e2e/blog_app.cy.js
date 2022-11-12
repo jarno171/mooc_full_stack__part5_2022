@@ -57,5 +57,26 @@ describe('Blog app', function() {
       cy.contains('toinentestaaja').should('not.be.visible')
       cy.contains('www.lol.com').should('not.be.visible')
     })
+
+    describe('when added a blog', () => {
+      beforeEach(function() {
+        cy.contains('add a new blog').click()
+        cy.get('#title').type('testiblogi')
+        cy.get('#author').type('toinentestaaja')
+        cy.get('#url').type('www.lol.com')
+
+        cy.get('#add-button').click()
+      })
+
+      it('user can like a blog', () => {
+        cy.contains('view').click()
+
+        cy.contains('likes 0')
+        cy.contains('like').click()
+        cy.contains('likes 0').should('not.exist')
+        cy.contains('likes 1')
+      })
+    })
+
   })
 })
